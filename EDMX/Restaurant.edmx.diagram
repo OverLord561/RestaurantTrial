@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2fb7b0ae08b54a7198902bad9b1a1440" Name="Diagram1" >
+        <EntityTypeShape EntityType="Restaurant.Order" Width="1.5" PointX="6.5" PointY="0.5" />
+        <EntityTypeShape EntityType="Restaurant.DishType" Width="1.5" PointX="0.625" PointY="2.875" />
+        <EntityTypeShape EntityType="Restaurant.Dish" Width="1.5" PointX="2.875" PointY="0.5" />
+        <EntityTypeShape EntityType="Restaurant.DishFormula" Width="1.5" PointX="5.25" PointY="3.375" />
+        <EntityTypeShape EntityType="Restaurant.Component" Width="2.5" PointX="8.375" PointY="3.25" />
+        <EntityTypeShape EntityType="Restaurant.Waiter" Width="1.5" PointX="9.75" PointY="0.875" />
+        <AssociationConnector Association="Restaurant.OrderDish" />
+        <AssociationConnector Association="Restaurant.OrderWaiter" />
+        <AssociationConnector Association="Restaurant.DishFormulaComponent" />
+        <AssociationConnector Association="Restaurant.DishFormulaDish" />
+        <AssociationConnector Association="Restaurant.DishDishType" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

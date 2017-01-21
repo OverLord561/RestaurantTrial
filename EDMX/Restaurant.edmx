@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="Restaurant.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="RestaurantTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Restaurant" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="RestaurantContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="OrderSet" EntityType="Restaurant.Order" />
+          <EntitySet Name="DishTypeSet" EntityType="Restaurant.DishType" />
+          <EntitySet Name="DishSet" EntityType="Restaurant.Dish" />
+          <EntitySet Name="DishFormulaSet" EntityType="Restaurant.DishFormula" />
+          <EntitySet Name="ComponentSet" EntityType="Restaurant.Component" />
+          <EntitySet Name="WaiterSet" EntityType="Restaurant.Waiter" />
+          <AssociationSet Name="OrderDish" Association="Restaurant.OrderDish">
+            <End Role="Order" EntitySet="OrderSet" />
+            <End Role="Dish" EntitySet="DishSet" />
+          </AssociationSet>
+          <AssociationSet Name="OrderWaiter" Association="Restaurant.OrderWaiter">
+            <End Role="Order" EntitySet="OrderSet" />
+            <End Role="Waiter" EntitySet="WaiterSet" />
+          </AssociationSet>
+          <AssociationSet Name="DishFormulaComponent" Association="Restaurant.DishFormulaComponent">
+            <End Role="DishFormula" EntitySet="DishFormulaSet" />
+            <End Role="Component" EntitySet="ComponentSet" />
+          </AssociationSet>
+          <AssociationSet Name="DishFormulaDish" Association="Restaurant.DishFormulaDish">
+            <End Role="DishFormula" EntitySet="DishFormulaSet" />
+            <End Role="Dish" EntitySet="DishSet" />
+          </AssociationSet>
+          <AssociationSet Name="DishDishType" Association="Restaurant.DishDishType">
+            <End Role="Dish" EntitySet="DishSet" />
+            <End Role="DishType" EntitySet="DishTypeSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderTime" Type="String" Nullable="false" />
+          <Property Name="OrderPrice" Type="String" Nullable="false" />
+          <Property Name="Wish" Type="String" Nullable="false" />
+          <Property Name="CountOfDishes" Type="String" Nullable="false" />
+          <NavigationProperty Name="Dish" Relationship="Restaurant.OrderDish" FromRole="Order" ToRole="Dish" />
+          <NavigationProperty Name="Waiter" Relationship="Restaurant.OrderWaiter" FromRole="Order" ToRole="Waiter" />
+        </EntityType>
+        <EntityType Name="DishType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DishTypeName" Type="String" Nullable="false" />
+          <NavigationProperty Name="Dish" Relationship="Restaurant.DishDishType" FromRole="DishType" ToRole="Dish" />
+        </EntityType>
+        <EntityType Name="Dish">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DishName" Type="String" Nullable="false" />
+          <Property Name="DishPrice" Type="String" Nullable="false" />
+          <Property Name="IsAvaible" Type="String" Nullable="false" />
+          <Property Name="CountOfOrders" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Restaurant.OrderDish" FromRole="Dish" ToRole="Order" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DishFormula" Relationship="Restaurant.DishFormulaDish" FromRole="Dish" ToRole="DishFormula" />
+          <NavigationProperty Name="DishType" Relationship="Restaurant.DishDishType" FromRole="Dish" ToRole="DishType" />
+        </EntityType>
+        <EntityType Name="DishFormula">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComponentWeight" Type="String" Nullable="false" />
+          <NavigationProperty Name="Component" Relationship="Restaurant.DishFormulaComponent" FromRole="DishFormula" ToRole="Component" />
+          <NavigationProperty Name="Dish" Relationship="Restaurant.DishFormulaDish" FromRole="DishFormula" ToRole="Dish" />
+        </EntityType>
+        <EntityType Name="Component">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComponentName" Type="String" Nullable="false" />
+          <Property Name="ComponentCount" Type="String" Nullable="false" />
+          <NavigationProperty Name="DishFormula" Relationship="Restaurant.DishFormulaComponent" FromRole="Component" ToRole="DishFormula" />
+          <Property Name="DishFormulaId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Waiter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WaiterName" Type="String" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Restaurant.OrderWaiter" FromRole="Waiter" ToRole="Order" />
+        </EntityType>
+        <Association Name="OrderDish">
+          <End Type="Restaurant.Order" Role="Order" Multiplicity="1" />
+          <End Type="Restaurant.Dish" Role="Dish" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Dish">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrderWaiter">
+          <End Type="Restaurant.Order" Role="Order" Multiplicity="1" />
+          <End Type="Restaurant.Waiter" Role="Waiter" Multiplicity="1" />
+        </Association>
+        <Association Name="DishFormulaComponent">
+          <End Type="Restaurant.DishFormula" Role="DishFormula" Multiplicity="1" />
+          <End Type="Restaurant.Component" Role="Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DishFormula">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Component">
+              <PropertyRef Name="DishFormulaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DishFormulaDish">
+          <End Type="Restaurant.DishFormula" Role="DishFormula" Multiplicity="1" />
+          <End Type="Restaurant.Dish" Role="Dish" Multiplicity="1" />
+        </Association>
+        <Association Name="DishDishType">
+          <End Type="Restaurant.Dish" Role="Dish" Multiplicity="1" />
+          <End Type="Restaurant.DishType" Role="DishType" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="Restaurant" />
+        <Alias Key="Target" Value="Restaurant.Store" />
+        <EntityContainerMapping CdmEntityContainer="RestaurantContainer" StorageEntityContainer="RestaurantTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
